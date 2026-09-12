@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Tính Pip, Lot Forex</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fcfcfd;
+            color: #333;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            padding: 20px 30px;
+        }
+
+        h1 {
+            color: #3f3d56;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555555;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        label span {
+            color: #d32f2f;
+        }
+
+        .input-box {
+            width: 320px;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            background-color: #f8f9fa;
+            outline: none;
+            color: #333;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: #2196f3;
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        /* Ô Số Lot Vào Lệnh - Bo tròn 20px, viền xanh lá đậm, nền xám chuẩn hình 2 */
+        .result-box {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 2px solid #28a745 !important; /* Viền xanh lá chuẩn hình 2 */
+            border-radius: 20px !important;       /* Bo tròn góc hoàn toàn */
+            background-color: #f8f9fa !important;  /* Nền xám nhạt đồng bộ */
+            outline: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .note-text {
+            font-size: 12px;
+            color: #888888;
+            font-style: italic;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* Phần Hướng Dẫn Bên Dưới */
+        .guide-section {
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 25px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .guide-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .guide-section p {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .guide-section strong {
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Công Cụ Tính Pip, Lot Forex</h1>
+
+    <div class="form-group">
+        <label>Số Tiền Trong Tài Khoản ( USD)<span>*</span></label>
+        <div class="input-box">
+            <input type="number" id="balance" value="100" placeholder="Nhập số dư">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Rủi Ro Mỗi Lệnh Theo % Tài Khoản<span>*</span></label>
+        <div class="input-box">
+            <input type="number" id="risk" value="2" placeholder="Nhập % rủi ro">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Số Pip Dừng Lỗ ( Stoploss)<span>*</span></label>
+        <div class="input-box">
+            <input type="number" id="stoploss" placeholder="Nhập số pip SL">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Cặp Tiền Giao Dịch</label>
+        <div class="input-box">
+            <select id="pair">
+                <option value="xxxUSD">xxxUSD,US30</option>
+                <option value="XAUUSD">XAUUSD</option>
+                <option value="BTCUSD">BTCUSD</option>
+                <option value="xxxJPY">xxxJPY</option>
+                <option value="xxxCAD">xxxCAD</option>
+                <option value="xxxAUD">xxxAUD</option>
+                <option value="xxxGBP">xxxGBP</option>
+                <option value="xxxNZD">xxxNZD</option>
+                <option value="xxxCHF">xxxCHF</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Số Lot Vào Lệnh</label>
+        <div class="input-box">
+            <input type="text" id="result" class="result-box" readonly placeholder="">
+            <span class="note-text">*Làm tròn 2 số thập phân để vào lệnh.</span>
+        </div>
+    </div>
+
+    <!-- Hướng Dẫn Sử Dụng -->
+    <div class="guide-section">
+        <h2>Làm sao để tính pip, lot vào lệnh Forex chuẩn?</h2>
+        <p>Công cụ đã được cài đặt tự động tính số lot vào lệnh chuẩn theo số pip stoploss các cặp tiền. Cách sử dụng công cụ:</p>
+        
+        <p><strong>1. Xác định số pip stoploss của bạn</strong></p>
+        <p>Chênh lệch giữa giá vào lệnh và điểm stoploss,</p>
+        <p>Số pip được tính từ số thập phân thứ 4, nghĩa là 1 pip = 0.0001</p>
+        <p>Các cặp tiền có JPY, kim loại quý là số thập phân thứ 2, nghĩa là 1 pip = 0.01</p>
+    </div>
+</div>
+
+<script>
+    const balanceInput = document.getElementById('balance');
+    const riskInput = document.getElementById('risk');
+    const stoplossInput = document.getElementById('stoploss');
+    const pairSelect = document.getElementById('pair');
+    const resultInput = document.getElementById('result');
+
+    function calculateLot() {
+        const balance = parseFloat(balanceInput.value) || 0;
+        const riskPercent = parseFloat(riskInput.value) || 0;
+        const stopLossPips = parseFloat(stoplossInput.value) || 0;
+        const selectedPair = pairSelect.value;
+
+        if (balance <= 0 || riskPercent <= 0 || stopLossPips <= 0) {
+            resultInput.value = "";
+            return;
+        }
+
+        const riskAmount = balance * (riskPercent / 100);
+        let pipValuePerLot = 10;
+
+        switch (selectedPair) {
+            case 'XAUUSD':
+                pipValuePerLot = 1; 
+                break;
+            case 'BTCUSD':
+                pipValuePerLot = 1; 
+                break;
+            case 'xxxJPY':
+                pipValuePerLot = 6.7; 
+                break;
+            case 'xxxCAD':
+                pipValuePerLot = 7.4;
+                break;
+            case 'xxxAUD':
+            case 'xxxGBP':
+            case 'xxxNZD':
+                pipValuePerLot = 10;
+                break;
+            case 'xxxCHF':
+                pipValuePerLot = 11;
+                break;
+            default:
+                pipValuePerLot = 10;
+        }
+
+        let lotSize = riskAmount / (stopLossPips * pipValuePerLot);
+        resultInput.value = lotSize.toFixed(2);
+    }
+
+    balanceInput.addEventListener('input', calculateLot);
+    riskInput.addEventListener('input', calculateLot);
+    stoplossInput.addEventListener('input', calculateLot);
+    pairSelect.addEventListener('change', calculateLot);
+</script>
+
+</body>
+</html>
